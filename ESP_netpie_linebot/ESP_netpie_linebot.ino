@@ -5,7 +5,7 @@
 const char* ssid     = "gummybea"; //change this to your SSID
 const char* password = "30113011"; //change this to your PASSWORD
 
-const char* host = "https://botlessrandomy.herokuapp.com/bot.php";//change this to your linebot server ex.http://numpapick-linebot.herokuapp.com/bot.php
+const char* host = "https://botlessrandomy.herokuapp.com/bot.php";
 #define APPID   "botlesslinechat"     //change this to your APPID
 #define KEY     "1MBZpxQIzpiTMKB"     //change this to your KEY
 #define SECRET  "zW32kAlwlsiaxCDiNhtRO6rQk"     //change this to your SECRET
