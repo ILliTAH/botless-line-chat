@@ -37,7 +37,7 @@
      
     curl_setopt($ch, CURLOPT_POSTFIELDS, $tmsg);
  
-    curl_setopt($ch, CURLOPT_USERPWD, "ovlN1MiClOVtq9O:rdtuDSTPPVAJA7ryBDOTj8P6z");
+    //curl_setopt($ch, CURLOPT_USERPWD, "ovlN1MiClOVtq9O:rdtuDSTPPVAJA7ryBDOTj8P6z");
      
     $response = curl_exec($ch);
     
