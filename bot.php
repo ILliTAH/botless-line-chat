@@ -5,13 +5,20 @@
 // Get POST body content
 $content = file_get_contents('php://input');
 // Parse JSON
-$userId;
 $events = json_decode($content, true);
 // Validate parsed JSON data
+if(!is_null($events)){
+	
+	$replyToken = $events['events'][0]['replyToken'];
+	$userID = $events['events'][0]['source']['userId'];
+	$sourceType = $events['events'][0]['source']['type'];
+	$groupId = $events['events'][0]['source']['groupId'];
+	       
+}
+
 if (!is_null($events['ESP'])) {
 
-	global $userId;
-	send_LINE($events['ESP'],$events['events']);
+	send_LINE($events['ESP'],$groupId);
 		
 	echo "OK";
 	}
