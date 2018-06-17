@@ -61,7 +61,9 @@ Serial.print("Incoming message --> ");
     microgear.chat(TargetWeb, "OFF");
     send_json("หยุดแล้ว");
     setStatRadom = 0;
-  }
+  }else{
+    send_json("ฉันยังไม่เข้าใจ");
+    }
   
    
 }

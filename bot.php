@@ -5,12 +5,13 @@
 // Get POST body content
 $content = file_get_contents('php://input');
 // Parse JSON
+$userId;
 
 $events = json_decode($content, true);
 // Validate parsed JSON data
 if (!is_null($events['ESP'])) {
 	
-	send_LINE($events['ESP']);
+	send_LINE($events['ESP'],$userId);
 		
 	echo "OK";
 	}
@@ -24,7 +25,8 @@ if (!is_null($events['events'])) {
 			$text = $event['message']['text'];
 			// Get replyToken
 			$replyToken = $event['replyToken'];
-
+			
+			$userId = $event['source']['userId']
 			// Build message to reply back
 
 			$Topic = "NodeMCU1" ;
