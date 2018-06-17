@@ -1,5 +1,4 @@
 <?php
-
  require("pub.php");
  require("line.php");
 
