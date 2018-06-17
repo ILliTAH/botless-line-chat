@@ -14,28 +14,27 @@ if (!is_null($events['events'])) {
 		// Reply only when message sent is in 'text' format
 		if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
 			// Get text sent
+			global $userId;
 			$text = $event['message']['text'];
 			// Get replyToken
 			//$replyToken = $event['replyToken'];
 			// Get userId
 			$userId = $event['source']['userId'];
 			// Build message to reply back
-			$groupId = $event['source']['groupId'];
+		 	$groupId = $event['source']['groupId'];
 
 			$Topic = "NodeMCU1" ;
 			getMqttfromlineMsg($Topic,$text);
 			   
-			
 		}
-
 	}
 }
 
 if (!is_null($events['ESP'])) {
-	
+	global $userId;
 	send_LINE($events['ESP'],$userId);
 		
-	echo $groupId;
+	
 	}
 
 echo "OK3";
