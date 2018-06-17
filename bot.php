@@ -8,8 +8,9 @@ $content = file_get_contents('php://input');
 $userId;
 $events = json_decode($content, true);
 // Validate parsed JSON data
-if (!is_null($events['ESP']) && !is_null($userId)) {
+if (!is_null($events['ESP'])) {
 
+	global $userId;
 	send_LINE($events['ESP'],$userId);
 		
 	echo "OK";
