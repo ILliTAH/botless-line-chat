@@ -6,9 +6,10 @@
 $content = file_get_contents('php://input');
 // Parse JSON
 $events = json_decode($content, true);
+$groupId;
 // Validate parsed JSON data
 if(!is_null($events)){
-	
+	global $groupId;
 	$replyToken = $events['events']['replyToken'];
 	$userID = $events['events']['source']['userId'];
 	$sourceType = $events['events']['source']['type'];
@@ -18,7 +19,7 @@ if(!is_null($events)){
 }
 
 if (!is_null($events['ESP'])) {
-
+	global $groupId;
 	$access_token = 'LWJCoT6Vuz2x0pDhLtyW+wXxpJ+9M7Tx6P5K1bFroeStnMNnh2C46Tnd8H+wWDBg0S6pLaXwL/s/i62DoabJomYXsAl2kxa+wH3a+N2t83O76hO76yDdmyLyFTpQFRW6SIWuCbkkRFwZVhH3wxedPwdB04t89/1O/w1cDnyilFU=';
 	$msg = $events['ESP'];
 	$messages = [
