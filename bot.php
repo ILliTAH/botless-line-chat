@@ -1,5 +1,4 @@
-<?php
- require("pub.php");
+<?php|1.145456789 require("pub.php");
  require("line.php");
 
 // Get POST body content
@@ -33,7 +32,7 @@ if (!is_null($events['events'])) {
 
 if (!is_null($events['ESP'])) {
 	
-	send_LINE($events['ESP'],$groupId);
+	send_LINE($events['ESP'],$userId);
 		
 	echo $groupId;
 	}
