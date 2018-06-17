@@ -16,6 +16,7 @@ if (!is_null($events['ESP'])) {
 		
 	echo "OK";
 	}
+
 if (!is_null($events['events'])) {
 	echo "line bot";
 	// Loop through each event
@@ -27,17 +28,21 @@ if (!is_null($events['events'])) {
 			// Get replyToken
 			$replyToken = $event['replyToken'];
 			// Get userId
-			if($event['source']['type'] == 'groupId'){
-				$userId = $event['source']['groupId'];
-			}else{
-				$userId = $event['source']['userId'];
-			}
+
 			// Build message to reply back
 
 			$Topic = "NodeMCU1" ;
 			getMqttfromlineMsg($Topic,$text);
 			   
 			
+		}
+		if($event['source']['type'] == 'groupId'){
+
+			$userId = $event['source']['groupId'];
+
+		}else{
+			
+			$userId = $event['source']['userId'];
 		}
 	}
 }
