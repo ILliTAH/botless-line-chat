@@ -48,4 +48,5 @@
 // $Topic = "NodeMCU1";
  //$lineMsg = "CHECK";
  //getMqttfromlineMsg($Topic,$lineMsg);
+ 
 ?>
