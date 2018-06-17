@@ -5,7 +5,7 @@
 // Get POST body content
 $content = file_get_contents('php://input');
 // Parse JSON
-
+$userId;
 $events = json_decode($content, true);
 // Validate parsed JSON data
 if (!is_null($events['ESP']) && !is_null($userId)) {
@@ -35,11 +35,11 @@ if (!is_null($events['events'])) {
 			
 		}
 		if($event['source']['type'] == 'groupId'){
-
+			global $userId;	
 			$userId = $event['source']['groupId'];
 
 		}else{
-
+			global $userId;	
 			$userId = $event['source']['userId'];
 		}
 	}
