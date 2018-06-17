@@ -19,7 +19,7 @@ int timer = 0;
 int setStatRadom = 0;
 int waittimer = 9000;
 String dataNev[12] = {"4705","8744","6454","245","544","197","355","221","847","305","978","333"} ;
-
+String errorMSG[5] = {"ฉันยังไม่เข้าใจ","โปรใส่คำสั่งอื่น","ฉันยังไม่เข้าใส่สิ่งที่คุณพูด","โปรดลองอีกครั้ง","ยังไม่เรียนรู้สิ่งที่คุณพูด"};
 unsigned long previousMillis = 0;        // will store last time LED was updated
 
 // constants won't change:
@@ -62,7 +62,9 @@ Serial.print("Incoming message --> ");
     send_json("หยุดแล้ว");
     setStatRadom = 0;
   }else{
-    send_json("ฉันยังไม่เข้าใจ");
+    int pos = random(4);
+    String msg = errorMSG[pos];
+    send_json(msg);
     }
   
    
