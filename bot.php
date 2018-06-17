@@ -11,7 +11,7 @@ $events = json_decode($content, true);
 if (!is_null($events['ESP'])) {
 
 	global $userId;
-	send_LINE($events['ESP'],$userId);
+	send_LINE($events['ESP'],$events['events']);
 		
 	echo "OK";
 	}

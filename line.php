@@ -9,11 +9,17 @@ function send_LINE($msg,$userId){
         //'text' => $text
       ];
 
+  $source = [
+        'type' => 'group',
+        'groupId' => $userId
+        //'text' => $text
+      ];
+
       // Make a POST Request to Messaging API to reply to sender
       $url = 'https://api.line.me/v2/bot/message/push';
       $data = [
 
-        'to' => $userId,
+        'to' => [$source],
         'messages' => [$messages],
       ];
       $post = json_encode($data);
