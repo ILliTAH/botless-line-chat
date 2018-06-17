@@ -1,6 +1,6 @@
 <?php
- require("pub.php");
- require("line.php");
+ ("pub.php");
+ ("line.php");
 
 
 $userId = '';
@@ -11,7 +11,6 @@ $content = file_get_contents('php://input');
 $events = json_decode($content, true);
 // Validate parsed JSON data
 if (!is_null($events['ESP'])) {
-
 
 	send_LINE($events['ESP'],$userId);
 		
@@ -29,9 +28,9 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 			// Get userId
 			if($event['source']['type'] == 'groupId'){
-				global $userId = $event['source']['groupId']
+				$userId = $event['source']['groupId'];
 			}else{
-				global $userId = $event['source']['userId']
+				$userId = $event['source']['userId'];
 			}
 			// Build message to reply back
 
