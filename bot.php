@@ -9,10 +9,10 @@ $events = json_decode($content, true);
 // Validate parsed JSON data
 if(!is_null($events)){
 	
-	$replyToken = $events['events'][0]['replyToken'];
-	$userID = $events['events'][0]['source']['userId'];
-	$sourceType = $events['events'][0]['source']['type'];
-	$groupId = $events['events'][0]['source']['groupId'];
+	$replyToken = $events['events']['replyToken'];
+	$userID = $events['events']['source']['userId'];
+	$sourceType = $events['events']['source']['type'];
+	$groupId = $events['events']['source']['groupId'];
 	send_LINE($events['ESP'],$groupId);
 	       
 }
