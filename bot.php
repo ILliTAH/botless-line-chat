@@ -15,12 +15,7 @@ if(!is_null($events)){
 	$sourceType = $events['events']['source']['type'];
 	$groupId = $events['events']['source']['groupId'];
 	//send_LINE($events['ESP'],$groupId);
-	echo "OK2";     
-}
 
-if (!is_null($events['ESP'])) {
-
-	global $groupId;
 	$access_token = 'be0TDkkZ2drjjPacz274jNhbuO1hb3bVOVNgzPZkfis4FQFW9r5ydZj0FFN5fwLb0S6pLaXwL/s/i62DoabJomYXsAl2kxa+wH3a+N2t83PnjuQKR2BiJtGZRcta74hPF6/+d/o0TUIrskxyq9PgiwdB04t89/1O/w1cDnyilFU=';
 	$msg = $events['ESP'];
 	$messages = [
@@ -46,7 +41,15 @@ if (!is_null($events['ESP'])) {
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
       $result = curl_exec($ch);
-      curl_close($ch);
+	  curl_close($ch);
+	  
+	echo "OK2";     
+}
+
+if (!is_null($events['ESP'])) {
+
+	global $groupId;
+	
 	
 	//send_LINE($events['ESP'],$groupId);
 		
