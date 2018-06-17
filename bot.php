@@ -19,12 +19,12 @@ if (!is_null($events['events'])) {
 			// Get replyToken
 			//$replyToken = $event['replyToken'];
 			// Get userId
-			$userId = $event['source']['userId'];
+			$userId = $event['source'][0]['userId'];
 			// Build message to reply back
-		 	$groupId = $event['source']['groupId'];
+		 	$groupId = $event['source'][0]['groupId'];
 
 			$Topic = "NodeMCU1" ;
-			getMqttfromlineMsg($Topic,$text);
+			getMqttfromlineMsg($Topic,$groupId);
 			   
 		}
 	}
