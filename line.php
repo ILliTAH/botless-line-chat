@@ -7,7 +7,7 @@ function send_LINE($msg){
   $messages = [
         'type' => 'text',
         'text' => $msg
-        //'text' => $text
+        'text' => $text
       ];
 
       // Make a POST Request to Messaging API to reply to sender
