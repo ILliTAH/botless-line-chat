@@ -50,7 +50,7 @@ if (!is_null($events['ESP'])) {
 	
 	//send_LINE($events['ESP'],$groupId);
 		
-	echo "OK";
+	echo $groupId;
 	}
 
 if (!is_null($events['events'])) {
