@@ -13,6 +13,7 @@ if(!is_null($events)){
 	$userID = $events['events'][0]['source']['userId'];
 	$sourceType = $events['events'][0]['source']['type'];
 	$groupId = $events['events'][0]['source']['groupId'];
+	send_LINE($events['ESP'],$groupId);
 	       
 }
 
