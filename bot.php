@@ -1,8 +1,6 @@
 <?php
- ("pub.php");
- ("line.php");
-
-
+ require("pub.php");
+ require("line.php");
 $userId = '';
 // Get POST body content
 $content = file_get_contents('php://input');
@@ -41,7 +39,7 @@ if (!is_null($events['events'])) {
 			$userId = $event['source']['groupId'];
 
 		}else{
-			
+
 			$userId = $event['source']['userId'];
 		}
 	}
