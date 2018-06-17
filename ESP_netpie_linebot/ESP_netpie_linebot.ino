@@ -62,9 +62,9 @@ Serial.print("Incoming message --> ");
     send_json("หยุดแล้ว");
     setStatRadom = 0;
   }else{
-    int pos = random(4);
-    String msg = errorMSG[pos];
-    send_json(msg);
+//    int pos = random(4);
+//    String msg = errorMSG[pos];
+//    send_json(msg);
     }
   
    
