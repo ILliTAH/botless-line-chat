@@ -32,9 +32,9 @@ if (!is_null($events['events'])) {
 			// Get text sent
 			$text = $event['message']['text'];
 			// Get replyToken
-			$replyToken = $event['replyToken'];
+			//$replyToken = $event['replyToken'];
 			// Get userId
-
+			$userId = $event['source']['userId'];
 			// Build message to reply back
 
 			$Topic = "NodeMCU1" ;
@@ -42,15 +42,10 @@ if (!is_null($events['events'])) {
 			   
 			
 		}
-		if($event['source']['type'] == 'groupId'){
-			global $userId;	
-			$userId = $event['source']['groupId'];
 
-		}else{
-			global $userId;	
-			$userId = $event['source']['userId'];
-		}
 	}
 }
+echo $groupId;
+echo $userId;
 echo "OK3";
 ?>
