@@ -14,6 +14,10 @@ if (!is_null($events['ESP'])) {
 		
 	echo "OK";
 	}
+if($events->isGroupEvent()){
+		$groupId = $events->getGroupId();  
+		echo $groupId;
+	}
 if (!is_null($events['events'])) {
 	echo "line bot";
 	// Loop through each event
