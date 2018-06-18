@@ -2,7 +2,7 @@
 
 ### How to get groupId 
 
->แก้ไขไฟล์ bot.php
+>เปิดไฟล์ bot.php
 ```
 			$Topic = "NodeMCU1" ;
 			getMqttfromlineMsg($Topic,$text);
@@ -24,7 +24,7 @@ Incoming message --> /botlesslinechat/gearname/NodeMCU1 : xxxxxxxxxxxxxxxx
 ...
 ```
 
->แก้ไขไฟล์ line.php
+>เปิดไฟล์ นำ groupId มาใส่ที่ไฟล์ line.php
 ```
 'to' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
 ```
