@@ -19,9 +19,9 @@ if (!is_null($events['events'])) {
 			// Get replyToken
 			//$replyToken = $event['replyToken'];
 			// Get userId
-			$userId = $event['source'][0]['userId'];
+			$userId = $event['source']['userId'];
 			// Build message to reply back
-		 	$groupId = $event['source'][0]['groupId'];
+		 	$groupId = $event['source']['groupId'];
 
 			$Topic = "NodeMCU1" ;
 			getMqttfromlineMsg($Topic,$groupId);
