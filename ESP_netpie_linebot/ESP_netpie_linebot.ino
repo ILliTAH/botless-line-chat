@@ -13,17 +13,42 @@ const char* host = "http://botlessrandomy.herokuapp.com/bot.php";
 #define ALIAS   "NodeMCU1" //set name of drvice
 #define TargetWeb "switch" //set target name of web
 
+#define ButtonStart1 1
+#define ButtonStart2 2
+#define ButtonStart3 3
+#define ButtonStart4 4
+#define ButtonStart5 5
+#define ButtonPause 6
+#define ButtonStop 7
+
+#define ButtonRule 0
+
+int startStatus1 = 1;
+int startStatus2 = 1;
+int startStatus3 = 1;
+int startStatus4 = 1;
+int startStatus5 = 1;
+int pauseStatus = 1;
+int stopStatus = 1;
+int ruleStatus = 1;
+
+
 WiFiClient client;
 String uid = "";
 int timer = 0;
-int setStatRadom = 0;
+int setStatRadom1 = 0;
+int setStatRadom2 = 0;
+int setStatRadom3 = 0;
+int setStatRadom4 = 0;
+int setStatRadom5 = 0;
 int waittimer = 9000;
-String dataNev[12] = {"4705","8744","6454","245","544","197","355","221","847","305","978","333"} ;
-String errorMSG[5] = {"ฉันยังไม่เข้าใจ","โปรใส่คำสั่งอื่น","ฉันยังไม่เข้าใส่สิ่งที่คุณพูด","โปรดลองอีกครั้ง","ยังไม่เรียนรู้สิ่งที่คุณพูด"};
+
 unsigned long previousMillis = 0;        // will store last time LED was updated
 
 // constants won't change:
 const long interval = 3000;
+
+
 
 MicroGear microgear(client);
 
@@ -42,25 +67,82 @@ Serial.print("Incoming message --> ");
 
   String stateStr = String(strState).substring(0, msglen);
 
-  if(stateStr == "เริ่ม") 
+  if(stateStr == "เริ่ม1") 
   {
     digitalWrite(LED_BUILTIN, HIGH);
     microgear.chat(TargetWeb, "เริ่ม");
-    send_json("จะเริ่มแล้วนะ");
-    setStatRadom = 1;
+    send_json("การสุ่ม รางวัลที่ 1 \r\n จะเริ่มแล้วนะ");
+    setStatRadom1 = 1;
+  }else 
+  if(stateStr == "เริ่ม2") 
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 2 \r\n จะเริ่มแล้วนะ");
+    setStatRadom2 = 1;
+  }else 
+  if(stateStr == "เริ่ม3") 
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 3 \r\n จะเริ่มแล้วนะ");
+    setStatRadom3 = 1;
+  }else 
+  if(stateStr == "เริ่ม4") 
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 4 \r\n จะเริ่มแล้วนะ");
+    setStatRadom4 = 1;
+  }else 
+  if(stateStr == "เริ่ม5") 
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 5 \r\n จะเริ่มแล้วนะ");
+    setStatRadom5 = 1;
   } 
   else if (stateStr == "รอ") 
   {
     digitalWrite(LED_BUILTIN, LOW);
     microgear.chat(TargetWeb, "OFF");
+    if(setStatRadom1 == 1|| setStatRadom2 == 1|| setStatRadom3 == 1|| setStatRadom4 == 1 ||setStatRadom5 == 1){
     send_json("กำลังรอ");
-    setStatRadom = 2;
+    if(setStatRadom1 == 1)
+      setStatRadom1 = 2;
+    if(setStatRadom2 == 1)
+      setStatRadom2 = 2;
+    if(setStatRadom3 == 1)
+      setStatRadom3 = 2;
+    if(setStatRadom4 == 1)
+      setStatRadom4 = 2;
+    if(setStatRadom5 == 1)
+      setStatRadom5 = 2;
+      }else {
+        send_json("ข้อผิดพลาด !\r\nยังไม่มีการเริ่มหรือคุณอาจส่งคำสั่งการรอมากไป");
+      }
   }else if(stateStr == "หยุด") 
   {
     digitalWrite(LED_BUILTIN, LOW);
     microgear.chat(TargetWeb, "OFF");
     send_json("หยุดแล้ว");
-    setStatRadom = 0;
+    setStatRadom1 = 0;
+    setStatRadom2 = 0;
+    setStatRadom3 = 0;
+    setStatRadom4 = 0;
+    setStatRadom5 = 0;
+  }else if(stateStr == "กติกา") 
+  {
+    digitalWrite(LED_BUILTIN, LOW);
+    microgear.chat(TargetWeb, "OFF");
+    String rule = " ";
+        rule += "***** กติกาการเล่น *****\r\n";
+        rule += "ใส่ข้อความ\r\n";
+        rule += "ใส่ข้อความ\r\n";
+        rule += "ใส่ข้อความ";
+    
+    send_json(rule);
+    
   }else{
 //    int pos = random(4);
 //    String msg = errorMSG[pos];
@@ -84,7 +166,15 @@ void setup() {
     Serial.println("Starting...");
 
     pinMode(LED_BUILTIN, OUTPUT);
-  
+    pinMode(ButtonStart1,INPUT_PULLUP);
+    pinMode(ButtonStart2,INPUT_PULLUP);
+    pinMode(ButtonStart3,INPUT_PULLUP);
+    pinMode(ButtonStart4,INPUT_PULLUP);
+    pinMode(ButtonStart5,INPUT_PULLUP);
+    pinMode(ButtonPause,INPUT_PULLUP);
+    pinMode(ButtonStop,INPUT_PULLUP);
+    pinMode(ButtonRule,INPUT_PULLUP);
+    
     if (WiFi.begin(ssid, password)) {
         while (WiFi.status() != WL_CONNECTED) {
             delay(500);
@@ -130,6 +220,104 @@ void send_json(String data){
  
     http.end();  //Close connection
 }
+
+
+void buttonEvent(){
+
+  startStatus1 = digitalRead(ButtonStart1);
+  startStatus2 = digitalRead(ButtonStart2);
+  startStatus3 = digitalRead(ButtonStart3);
+  startStatus4 = digitalRead(ButtonStart4);
+  startStatus5 = digitalRead(ButtonStart5);
+
+  pauseStatus = digitalRead(ButtonPause);
+  stopStatus = digitalRead(ButtonStop);
+  ruleStatus = digitalRead(ButtonRule);
+
+    if(startStatus1 == 0) 
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 1 \r\n จะเริ่มแล้วนะ");
+    setStatRadom1 = 1;
+  }else 
+  if(startStatus2 == 0) 
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 2 \r\n จะเริ่มแล้วนะ");
+    setStatRadom2 = 1;
+  }else 
+  if(startStatus3 == 0) 
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 3 \r\n จะเริ่มแล้วนะ");
+    setStatRadom3 = 1;
+  }else 
+  if(startStatus4 == 0) 
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 4 \r\n จะเริ่มแล้วนะ");
+    setStatRadom4 = 1;
+  }else 
+  if(startStatus5 == 0) 
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 5 \r\n จะเริ่มแล้วนะ");
+    setStatRadom5 = 1;
+  } 
+  else if (pauseStatus == 0) 
+  {
+    digitalWrite(LED_BUILTIN, LOW);
+    microgear.chat(TargetWeb, "OFF");
+    if(setStatRadom1 == 1|| setStatRadom2 == 1|| setStatRadom3 == 1|| setStatRadom4 == 1 ||setStatRadom5 == 1){
+    send_json("กำลังรอ");
+    if(setStatRadom1 == 1)
+      setStatRadom1 = 2;
+    if(setStatRadom2 == 1)
+      setStatRadom2 = 2;
+    if(setStatRadom3 == 1)
+      setStatRadom3 = 2;
+    if(setStatRadom4 == 1)
+      setStatRadom4 = 2;
+    if(setStatRadom5 == 1)
+      setStatRadom5 = 2;
+      }else {
+        send_json("ข้อผิดพลาด !\r\nยังไม่มีการเริ่มหรือคุณอาจส่งคำสั่งการรอมากไป");
+      }
+  }else if(stopStatus == 0) 
+  {
+    digitalWrite(LED_BUILTIN, LOW);
+    microgear.chat(TargetWeb, "OFF");
+    send_json("หยุดแล้ว");
+    setStatRadom1 = 0;
+    setStatRadom2 = 0;
+    setStatRadom3 = 0;
+    setStatRadom4 = 0;
+    setStatRadom5 = 0;
+  }else if(ruleStatus == 0) 
+  {
+    digitalWrite(LED_BUILTIN, LOW);
+    microgear.chat(TargetWeb, "OFF");
+    String rule = " ";
+        rule += "***** กติกาการเล่น *****\r\n";
+        rule += "ใส่ข้อความ\r\n";
+        rule += "ใส่ข้อความ\r\n";
+        rule += "ใส่ข้อความ";
+    
+    send_json(rule);
+    
+  }else{
+//    int pos = random(4);
+//    String msg = errorMSG[pos];
+//    send_json(msg);
+    }
+  
+  
+  }
 void loop() {
 
     if (microgear.connected()) {
@@ -152,20 +340,113 @@ if (currentMillis - previousMillis >= interval) {
 
     previousMillis = currentMillis;
 
-     if(setStatRadom == 1){
+     if(setStatRadom1 == 1){
       
       int pos = random(12);
-      String msgsent = dataNev[pos];
-      send_json(msgsent);
+      int numRandom = random(1000,9999);
+      String msgsent = String(numRandom);
+      String texFormate = " ";
+        texFormate += "ผลที่ส่งทางไลน์\r\n";
+        texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
+        texFormate += "รางวัลที่ 1\r\n";
+        texFormate += "เลขที่ออก ";
+        texFormate += msgsent;
+
+      send_json(texFormate);
 
       }
-      if(setStatRadom == 2){
+      if(setStatRadom1 == 2){
          delay(waittimer);
-         send_json("ไม่รอล่ะ");
-            setStatRadom = 1;   
-            
-            
+         send_json("สิ้นสุดการรอ");
+            setStatRadom1 = 1;   
+     
         }
+       if(setStatRadom2 == 2){
+         delay(waittimer);
+         send_json("สิ้นสุดการรอ");
+            setStatRadom2 = 1;   
+     
+        }
+       if(setStatRadom3 == 2){
+         delay(waittimer);
+         send_json("สิ้นสุดการรอ");
+            setStatRadom3 = 1;   
+     
+        }
+       if(setStatRadom4 == 2){
+         delay(waittimer);
+         send_json("สิ้นสุดการรอ");
+            setStatRadom4 = 1;   
+     
+        }
+      if(setStatRadom5 == 2){
+         delay(waittimer);
+         send_json("สิ้นสุดการรอ");
+            setStatRadom5 = 1;   
+     
+        }
+
+        if(setStatRadom2 == 1){
+      
+      int pos = random(12);
+      int numRandom = random(1000,9999);
+      String msgsent = String(numRandom);
+      String texFormate = " ";
+        texFormate += "ผลที่ส่งทางไลน์\r\n";
+        texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
+        texFormate += "รางวัลที่ 2\r\n";
+        texFormate += "เลขที่ออก ";
+        texFormate += msgsent;
+
+      send_json(texFormate);
+      }
+
+      if(setStatRadom3 == 1){
+      
+      int pos = random(12);
+      int numRandom = random(1000,9999);
+      String msgsent = String(numRandom);
+      String texFormate = " ";
+        texFormate += "ผลที่ส่งทางไลน์\r\n";
+        texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
+        texFormate += "รางวัลที่ 3\r\n";
+        texFormate += "เลขที่ออก ";
+        texFormate += msgsent;
+
+      send_json(texFormate);
+      }
+
+      if(setStatRadom4 == 1){
+      
+      int pos = random(12);
+      int numRandom = random(1000,9999);
+      String msgsent = String(numRandom);
+      String texFormate = " ";
+        texFormate += "ผลที่ส่งทางไลน์\r\n";
+        texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
+        texFormate += "รางวัลที่ 4\r\n";
+        texFormate += "เลขที่ออก ";
+        texFormate += msgsent;
+
+      send_json(texFormate);
+      }
+
+      if(setStatRadom5 == 1){
+      
+      int pos = random(12);
+      int numRandom = random(1000,9999);
+      String msgsent = String(numRandom);
+      String texFormate = " ";
+        texFormate += "ผลที่ส่งทางไลน์\r\n";
+        texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
+        texFormate += "รางวัลที่ 5\r\n";
+        texFormate += "เลขที่ออก ";
+        texFormate += msgsent;
+
+      send_json(texFormate);
+      }
+
+      
   }
    
 
