@@ -14,7 +14,7 @@ if (!is_null($events['events'])) {
 		// Reply only when message sent is in 'text' format
 		if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
 			// Get text sent
-			global $groupId;
+			global $groupId ='';
 			$text = $event['message']['text'];
 			// Get replyToken
 			//$replyToken = $event['replyToken'];
@@ -33,8 +33,8 @@ if (!is_null($events['events'])) {
 }
 
 if (!is_null($events['ESP'])) {
-	global $groupId;
-	send_LINE($events['ESP'],$groupId);
+	
+	send_LINE($events['ESP']);
 		
 	
 	}
