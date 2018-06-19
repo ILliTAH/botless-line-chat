@@ -2,6 +2,7 @@
 #include <MicroGear.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
+
 const char* ssid     = "gummybea"; //change this to your SSID
 const char* password = "30113011"; //change this to your PASSWORD
 
@@ -13,15 +14,18 @@ const char* host = "http://botlessrandomy.herokuapp.com/bot.php";
 #define ALIAS   "NodeMCU1" //set name of drvice
 #define TargetWeb "switch" //set target name of web
 
-#define ButtonStart1 1
-#define ButtonStart2 2
-#define ButtonStart3 3
-#define ButtonStart4 4
-#define ButtonStart5 5
-#define ButtonPause 6
-#define ButtonStop 7
+WiFiClient client;
 
-#define ButtonRule 0
+#define ButtonStart1 16
+#define ButtonStart2 5
+#define ButtonStart3 4
+#define ButtonStart4 0
+#define ButtonStart5 2
+#define ButtonPause 14
+#define ButtonStop 12
+
+#define ButtonRule 13
+#define ButtonOther 15
 
 int startStatus1 = 1;
 int startStatus2 = 1;
@@ -31,9 +35,9 @@ int startStatus5 = 1;
 int pauseStatus = 1;
 int stopStatus = 1;
 int ruleStatus = 1;
+int otherStatus = 1;
 
 
-WiFiClient client;
 String uid = "";
 int timer = 0;
 int setStatRadom1 = 0;
@@ -141,13 +145,8 @@ Serial.print("Incoming message --> ");
         rule += "ใส่ข้อความ\r\n";
         rule += "ใส่ข้อความ";
     
-    send_json(rule);
-    
-  }else{
-//    int pos = random(4);
-//    String msg = errorMSG[pos];
-//    send_json(msg);
-    }
+    send_json(rule);  
+  }
   
    
 }
@@ -159,6 +158,7 @@ void onConnected(char *attribute, uint8_t* msg, unsigned int msglen) {
 
 
 void setup() {
+  
     microgear.on(MESSAGE,onMsghandler);
     microgear.on(CONNECTED,onConnected);
 
@@ -174,6 +174,8 @@ void setup() {
     pinMode(ButtonPause,INPUT_PULLUP);
     pinMode(ButtonStop,INPUT_PULLUP);
     pinMode(ButtonRule,INPUT_PULLUP);
+    pinMode(ButtonOther,INPUT_PULLUP);
+    
     
     if (WiFi.begin(ssid, password)) {
         while (WiFi.status() != WL_CONNECTED) {
@@ -233,7 +235,8 @@ void buttonEvent(){
   pauseStatus = digitalRead(ButtonPause);
   stopStatus = digitalRead(ButtonStop);
   ruleStatus = digitalRead(ButtonRule);
-
+  otherStatus = digitalRead(ButtonOther);
+  
     if(startStatus1 == 0) 
   {
     digitalWrite(LED_BUILTIN, HIGH);
@@ -303,12 +306,24 @@ void buttonEvent(){
     digitalWrite(LED_BUILTIN, LOW);
     microgear.chat(TargetWeb, "OFF");
     String rule = " ";
-        rule += "***** กติกาการเล่น *****\r\n";
+        rule += "***** กติกาการเลิ่น *****\r\n";
         rule += "ใส่ข้อความ\r\n";
         rule += "ใส่ข้อความ\r\n";
         rule += "ใส่ข้อความ";
     
     send_json(rule);
+    
+  }else if(otherStatus == 0) 
+  {
+    digitalWrite(LED_BUILTIN, LOW);
+    microgear.chat(TargetWeb, "OFF");
+    String other = " ";
+        other += "***** อื่นๆใส่ข้อความ *****\r\n";
+        other += "ใส่ข้อความ\r\n";
+        other += "ใส่ข้อความ\r\n";
+        other += "ใส่ข้อความ";
+    
+    send_json(other);
     
   }else{
 //    int pos = random(4);
