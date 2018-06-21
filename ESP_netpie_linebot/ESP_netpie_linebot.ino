@@ -2,9 +2,11 @@
 #include <MicroGear.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
-
-const char* ssid     = "gummybea"; //change this to your SSID
-const char* password = "30113011"; //change this to your PASSWORD
+//
+const char* ssid     = "CHILL VAPOR WIFI_2.4G"; //change this to your SSID
+const char* password = "Ponlakorn"; //change this to your PASSWORD
+//const char* ssid     = "Carbon"; //change this to your SSID
+//const char* password = "30113011"; //change this to your PASSWORD
 
 const char* host = "http://botlessrandomy.herokuapp.com/bot.php";
 #define APPID   "botlesslinechat"     //change this to your APPID
@@ -166,15 +168,15 @@ void setup() {
     Serial.println("Starting...");
 
     pinMode(LED_BUILTIN, OUTPUT);
-    pinMode(ButtonStart1,INPUT_PULLUP);
-    pinMode(ButtonStart2,INPUT_PULLUP);
-    pinMode(ButtonStart3,INPUT_PULLUP);
-    pinMode(ButtonStart4,INPUT_PULLUP);
-    pinMode(ButtonStart5,INPUT_PULLUP);
-    pinMode(ButtonPause,INPUT_PULLUP);
-    pinMode(ButtonStop,INPUT_PULLUP);
-    pinMode(ButtonRule,INPUT_PULLUP);
-    pinMode(ButtonOther,INPUT_PULLUP);
+    pinMode(ButtonStart1,INPUT);
+    pinMode(ButtonStart2,INPUT);
+    pinMode(ButtonStart3,INPUT);
+    pinMode(ButtonStart4,INPUT);
+    pinMode(ButtonStart5,INPUT);
+    pinMode(ButtonPause,INPUT);
+    pinMode(ButtonStop,INPUT);
+    pinMode(ButtonRule,INPUT);
+    pinMode(ButtonOther,INPUT);
     
     
     if (WiFi.begin(ssid, password)) {
@@ -357,9 +359,13 @@ if (currentMillis - previousMillis >= interval) {
 
      if(setStatRadom1 == 1){
       
+      String msgsent;
       int pos = random(12);
-      int numRandom = random(1000,9999);
-      String msgsent = String(numRandom);
+      int numRandom = random(00,99);
+      msgsent = String(numRandom);
+      if(numRandom < 10){
+        msgsent = "0"+msgsent;
+        }
       String texFormate = " ";
         texFormate += "ผลที่ส่งทางไลน์\r\n";
         texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
@@ -403,9 +409,13 @@ if (currentMillis - previousMillis >= interval) {
 
         if(setStatRadom2 == 1){
       
+     String msgsent;
       int pos = random(12);
-      int numRandom = random(1000,9999);
-      String msgsent = String(numRandom);
+      int numRandom = random(00,99);
+      msgsent = String(numRandom);
+      if(numRandom < 10){
+        msgsent = "0"+msgsent;
+        }
       String texFormate = " ";
         texFormate += "ผลที่ส่งทางไลน์\r\n";
         texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
@@ -418,9 +428,13 @@ if (currentMillis - previousMillis >= interval) {
 
       if(setStatRadom3 == 1){
       
+    String msgsent;
       int pos = random(12);
-      int numRandom = random(1000,9999);
-      String msgsent = String(numRandom);
+      int numRandom = random(00,99);
+      msgsent = String(numRandom);
+      if(numRandom < 10){
+        msgsent = "0"+msgsent;
+        }
       String texFormate = " ";
         texFormate += "ผลที่ส่งทางไลน์\r\n";
         texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
@@ -433,9 +447,13 @@ if (currentMillis - previousMillis >= interval) {
 
       if(setStatRadom4 == 1){
       
+     String msgsent;
       int pos = random(12);
-      int numRandom = random(1000,9999);
-      String msgsent = String(numRandom);
+      int numRandom = random(00,99);
+      msgsent = String(numRandom);
+      if(numRandom < 10){
+        msgsent = "0"+msgsent;
+        }
       String texFormate = " ";
         texFormate += "ผลที่ส่งทางไลน์\r\n";
         texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
@@ -447,10 +465,13 @@ if (currentMillis - previousMillis >= interval) {
       }
 
       if(setStatRadom5 == 1){
-      
+     String msgsent;
       int pos = random(12);
-      int numRandom = random(1000,9999);
-      String msgsent = String(numRandom);
+      int numRandom = random(00,99);
+      msgsent = String(numRandom);
+      if(numRandom < 10){
+        msgsent = "0"+msgsent;
+        }
       String texFormate = " ";
         texFormate += "ผลที่ส่งทางไลน์\r\n";
         texFormate += "รางวัลประจำเดือนมิถุนายน 61\r\n";
@@ -465,5 +486,5 @@ if (currentMillis - previousMillis >= interval) {
   }
    
 
-    
+ //   
 }
