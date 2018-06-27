@@ -350,8 +350,13 @@ void loop() {
         }
         else timer += 100;
     }
+
+    
     
     delay(100);
+
+    buttonEvent();
+    
      unsigned long currentMillis = millis();  
 if (currentMillis - previousMillis >= interval) {
 
