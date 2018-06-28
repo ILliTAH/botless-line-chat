@@ -594,7 +594,7 @@ switch (keypad())
             case 5:
             {
              microgear.chat(TargetWeb, "เริ่ม");
-    send_json("การสุ่ม รางวัลที่ 5 \r\n จะเริ่มแล้วนะ");
+    send_json("การสุ่ม รางวัลที่ 6 \r\n จะเริ่มแล้วนะ");
     setStatRadom5 = 1;
     delay(startwaittimer);
             }
