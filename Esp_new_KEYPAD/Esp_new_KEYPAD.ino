@@ -18,19 +18,54 @@ const char* host = "http://botlessrandomy.herokuapp.com/bot.php";
 
 WiFiClient client;
 
-#define ButtonCo1 16  //D0
-#define ButtonCo2 5   //D1
-#define ButtonCo3 4   //D2
-#define ButtonCo4 0   //D3
-#define ButtonRo1 2  //D4
-#define ButtonRo2 14   //D5
-#define ButtonRo3 12    //D6
-
-#define ButtonRo4 13    //D7
-//#define ButtonOther 15    //D8
-
-int Row1,Row2,Row3,Row4;
-int Col1,Col2,Col3,Col4;
+byte h=0,v=0;    
+const unsigned long period=50;  
+unsigned long kdelay=0;       
+const byte rows=4;             
+const byte columns=4;            
+const byte Output[rows]={2,14,12,13}; 
+const byte Input[columns]={16,5,4,0}; 
+byte keypad() 
+{
+ static bool no_press_flag=0;  
+  for(byte x=0;x<columns;x++)   
+  {
+     if (digitalRead(Input[x])==HIGH);   
+     else
+     break;
+     if(x==(columns-1))   
+     {
+      no_press_flag=1;
+      h=0;
+      v=0;
+     }
+  }
+  if(no_press_flag==1) 
+  {
+    for(byte r=0;r<rows;r++) 
+    digitalWrite(Output[r],LOW);
+    for(h=0;h<columns;h++)  
+    {
+      if(digitalRead(Input[h])==HIGH) 
+      continue;
+      else    
+      {
+          for (v=0;v<rows;v++)   
+          {
+          digitalWrite(Output[v],HIGH);   
+          if(digitalRead(Input[h])==HIGH)  
+          {
+            no_press_flag=0;                
+            for(byte w=0;w<rows;w++) 
+            digitalWrite(Output[w],LOW);
+            return v*4+h; 
+          }
+          }
+      }
+    }
+  }
+ return 50;
+}
 
 
 
@@ -276,18 +311,14 @@ void setup() {
     Serial.begin(115200);
     Serial.println("Starting...");
 
-//    pinMode(LED_BUILTIN, OUTPUT);
-    pinMode(ButtonCo1,INPUT_PULLUP);
-    pinMode(ButtonCo2,INPUT_PULLUP);
-    pinMode(ButtonCo3,INPUT_PULLUP);
-    pinMode(ButtonCo4,INPUT_PULLUP);
-    
-    pinMode(ButtonRo1,INPUT_PULLUP);
-    pinMode(ButtonRo2,INPUT_PULLUP);
-    pinMode(ButtonRo3,INPUT_PULLUP);
-    pinMode(ButtonRo4,INPUT_PULLUP);
-//    pinMode(ButtonOther,INPUT_PULLUP);
-    
+for(byte i=0;i<rows;i++)  
+  {
+  pinMode(Output[i],OUTPUT);
+  }
+  for(byte s=0;s<columns;s++)  
+  {
+    pinMode(Input[s],INPUT_PULLUP);
+  }
     
     if (WiFi.begin(ssid, password)) {
         while (WiFi.status() != WL_CONNECTED) {
@@ -337,93 +368,284 @@ void send_json(String data){
 
 
 void buttonEvent(){
-
-  Col1 = digitalRead(ButtonCo1);
-  Col2 = digitalRead(ButtonCo2);
-  Col3 = digitalRead(ButtonCo3);
-  Col4 = digitalRead(ButtonCo4);
+//
+//  Col1 = digitalRead(ButtonCo1);
+//  Col2 = digitalRead(ButtonCo2);
+//  Col3 = digitalRead(ButtonCo3);
+//  Col4 = digitalRead(ButtonCo4);
+//  
+//  Row1 = digitalRead(ButtonRo1);
+//  Row2 = digitalRead(ButtonRo2);
+//  Row3 = digitalRead(ButtonRo3);
+//  Row4 = digitalRead(ButtonRo4);
+//
+//  
+//    if(Row1 == 0 && Col1 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 1 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom1 = 1;
+//  }else 
+//  if(Row1 == 0 && Col2 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 2 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom2 = 1;
+//  }else 
+//  if(Row1 == 0 && Col3 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 3 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom3 = 1;
+//  }else 
+//  if(Row1 == 0 && Col4 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 4 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom4 = 1;
+//  }else 
+//  if(Row2 == 0 && Col1 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 5 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom5 = 1;
+//  }
+//  if(Row2 == 0 && Col2 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 6 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom6 = 1;
+//  }
+//  if(Row2 == 0 && Col3 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 7 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom7 = 1;
+//  }
+//  if(Row2 == 0 && Col4 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 8 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom8 = 1;
+//  }
+//  if(Row3 == 0 && Col1 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 9 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom9 = 1;
+//  }
+//  if(Row3 == 0 && Col2 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, HIGH);
+//    microgear.chat(TargetWeb, "เริ่ม");
+//    send_json("การสุ่ม รางวัลที่ 10 \r\n จะเริ่มแล้วนะ");
+//    setStatRadom10 = 1;
+//  }      
+//  else if (Row3 == 0 && Col4 == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, LOW);
+//    microgear.chat(TargetWeb, "OFF");
+//    if(setStatRadom1 == 1|| setStatRadom2 == 1|| setStatRadom3 == 1|| setStatRadom4 == 1 ||setStatRadom5 == 1  ||setStatRadom6 == 1  ||setStatRadom7 == 1  ||setStatRadom8 == 1  ||setStatRadom9 == 1  ||setStatRadom10 == 1){
+//    send_json("กำลังรอ");
+//    if(setStatRadom1 == 1)
+//      setStatRadom1 = 2;
+//    if(setStatRadom2 == 1)
+//      setStatRadom2 = 2;
+//    if(setStatRadom3 == 1)
+//      setStatRadom3 = 2;
+//    if(setStatRadom4 == 1)
+//      setStatRadom4 = 2;
+//    if(setStatRadom5 == 1)
+//      setStatRadom5 = 2;
+//    if(setStatRadom6 == 1)
+//      setStatRadom6 = 2;
+//    if(setStatRadom7 == 1)
+//      setStatRadom7 = 2;
+//    if(setStatRadom8 == 1)
+//      setStatRadom8 = 2;
+//    if(setStatRadom9 == 1)
+//      setStatRadom9 = 2;
+//    if(setStatRadom10 == 1)
+//      setStatRadom10 = 2;
+//      }else {
+//        send_json("ข้อผิดพลาด !\r\nยังไม่มีการเริ่มหรือคุณอาจส่งคำสั่งการรอมากไป");
+//      }
+//  }else if(stopStatus == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, LOW);
+//    microgear.chat(TargetWeb, "OFF");
+//    send_json("หยุดแล้ว");
+//    setStatRadom1 = 0;
+//    setStatRadom2 = 0;
+//    setStatRadom3 = 0;
+//    setStatRadom4 = 0;
+//    setStatRadom5 = 0;
+//    setStatRadom6 = 0;
+//    setStatRadom7 = 0;
+//    setStatRadom8 = 0;
+//    setStatRadom9 = 0;
+//    setStatRadom10 = 0;
+//  }else if(ruleStatus == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, LOW);
+//    microgear.chat(TargetWeb, "OFF");
+//    String rule = " ";
+//        rule += "***** กติกาการเลิ่น *****\r\n";
+//        rule += "ใส่ข้อความ\r\n";
+//        rule += "ใส่ข้อความ\r\n";
+//        rule += "ใส่ข้อความ";
+//    
+//    send_json(rule);
+//    
+//  }else if(otherStatus == 0) 
+//  {
+//    //digitalWrite(LED_BUILTIN, LOW);
+//    microgear.chat(TargetWeb, "OFF");
+//    String other = " ";
+//        other += "***** อื่นๆใส่ข้อความ *****\r\n";
+//        other += "ใส่ข้อความ\r\n";
+//        other += "ใส่ข้อความ\r\n";
+//        other += "ใส่ข้อความ";
+//    
+//    send_json(other);
+//    
+//  }else{
+////    int pos = random(4);
+////    String msg = errorMSG[pos];
+////    send_json(msg);
+//    }
+//  
   
-  Row1 = digitalRead(ButtonRo1);
-  Row2 = digitalRead(ButtonRo2);
-  Row3 = digitalRead(ButtonRo3);
-  Row4 = digitalRead(ButtonRo4);
+  }
+void loop() {
 
-  
-    if(Row1 == 0 && Col1 == 0) 
+    if (microgear.connected()) {
+        Serial.println("..."); 
+        microgear.loop();
+        timer = 0;
+    }
+    else {
+        Serial.println("connection lost, reconnect...");
+        if (timer >= 5000) {
+            microgear.connect(APPID); 
+            timer = 0;
+        }
+        else timer += 100;
+    }
+
+    
+    
+    delay(100);
+
+  if(millis()-kdelay>period) 
   {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
+    kdelay=millis();  
+switch (keypad())  
+   {
+            case 0:
+            {
+             microgear.chat(TargetWeb, "เริ่ม");
     send_json("การสุ่ม รางวัลที่ 1 \r\n จะเริ่มแล้วนะ");
     setStatRadom1 = 1;
-  }else 
-  if(Row1 == 0 && Col2 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
+    delay(startwaittimer);
+            }
+       break;  
+            case 1:
+            {
+            microgear.chat(TargetWeb, "เริ่ม");
     send_json("การสุ่ม รางวัลที่ 2 \r\n จะเริ่มแล้วนะ");
     setStatRadom2 = 1;
-  }else 
-  if(Row1 == 0 && Col3 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
+    delay(startwaittimer);
+            }
+       break;
+            case 2:
+            {
+             microgear.chat(TargetWeb, "เริ่ม");
     send_json("การสุ่ม รางวัลที่ 3 \r\n จะเริ่มแล้วนะ");
     setStatRadom3 = 1;
-  }else 
-  if(Row1 == 0 && Col4 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
+    delay(startwaittimer);
+            }
+       break;
+            case 3:
+            {
+             microgear.chat(TargetWeb, "เริ่ม");
     send_json("การสุ่ม รางวัลที่ 4 \r\n จะเริ่มแล้วนะ");
     setStatRadom4 = 1;
-  }else 
-  if(Row2 == 0 && Col1 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
+    delay(startwaittimer);
+            }
+       break;
+            case 4:
+            {
+             microgear.chat(TargetWeb, "เริ่ม");
     send_json("การสุ่ม รางวัลที่ 5 \r\n จะเริ่มแล้วนะ");
     setStatRadom5 = 1;
-  }
-  if(Row2 == 0 && Col2 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
-    send_json("การสุ่ม รางวัลที่ 6 \r\n จะเริ่มแล้วนะ");
-    setStatRadom6 = 1;
-  }
-  if(Row2 == 0 && Col3 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
+    delay(startwaittimer);
+            }
+       break;
+            case 5:
+            {
+             microgear.chat(TargetWeb, "เริ่ม");
+    send_json("การสุ่ม รางวัลที่ 5 \r\n จะเริ่มแล้วนะ");
+    setStatRadom5 = 1;
+    delay(startwaittimer);
+            }
+       break;
+            case 6:
+            {
+            microgear.chat(TargetWeb, "เริ่ม");
     send_json("การสุ่ม รางวัลที่ 7 \r\n จะเริ่มแล้วนะ");
     setStatRadom7 = 1;
-  }
-  if(Row2 == 0 && Col4 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
+    delay(startwaittimer);
+            }
+       break;
+            case 7:
+            {
+            microgear.chat(TargetWeb, "เริ่ม");
     send_json("การสุ่ม รางวัลที่ 8 \r\n จะเริ่มแล้วนะ");
     setStatRadom8 = 1;
-  }
-  if(Row3 == 0 && Col1 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
+    delay(startwaittimer);
+            }
+       break;
+            case 8:
+            {
+            microgear.chat(TargetWeb, "เริ่ม");
     send_json("การสุ่ม รางวัลที่ 9 \r\n จะเริ่มแล้วนะ");
     setStatRadom9 = 1;
-  }
-  if(Row3 == 0 && Col2 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, HIGH);
-    microgear.chat(TargetWeb, "เริ่ม");
+    delay(startwaittimer);
+            }
+       break;
+            case 9:
+            {
+            microgear.chat(TargetWeb, "เริ่ม");
     send_json("การสุ่ม รางวัลที่ 10 \r\n จะเริ่มแล้วนะ");
     setStatRadom10 = 1;
-  }      
-  else if (Row3 == 0 && Col4 == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, LOW);
-    microgear.chat(TargetWeb, "OFF");
-    if(setStatRadom1 == 1|| setStatRadom2 == 1|| setStatRadom3 == 1|| setStatRadom4 == 1 ||setStatRadom5 == 1  ||setStatRadom6 == 1  ||setStatRadom7 == 1  ||setStatRadom8 == 1  ||setStatRadom9 == 1  ||setStatRadom10 == 1){
+    delay(startwaittimer);
+            }
+       break;
+            case 10:
+            {
+            microgear.chat(TargetWeb, "OFF");
+            String rule = " ";
+            rule += "***** กติกาการเล่น *****\r\n";
+            rule += "ใส่ข้อความ\r\n";
+            rule += "ใส่ข้อความ\r\n";
+            rule += "ใส่ข้อความ";
+             send_json(rule); 
+            } 
+       break;
+            case 11:
+            {
+            microgear.chat(TargetWeb, "OFF");
+    if(setStatRadom1 == 1|| setStatRadom2 == 1|| setStatRadom3 == 1|| setStatRadom4 == 1 ||setStatRadom5 == 1  ||setStatRadom6 == 1  ||setStatRadom7 == 1 ||setStatRadom8 == 1  ||setStatRadom9 == 1  || setStatRadom10 == 1){
     send_json("กำลังรอ");
     if(setStatRadom1 == 1)
       setStatRadom1 = 2;
@@ -448,10 +670,47 @@ void buttonEvent(){
       }else {
         send_json("ข้อผิดพลาด !\r\nยังไม่มีการเริ่มหรือคุณอาจส่งคำสั่งการรอมากไป");
       }
-  }else if(stopStatus == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, LOW);
-    microgear.chat(TargetWeb, "OFF");
+            }
+       break;
+            case 12:
+            {
+            microgear.chat(TargetWeb, "OFF");
+    String other = " ";
+        other += "***** อื่นๆ1ใส่ข้อความ *****\r\n";
+        other += "ใส่ข้อความ\r\n";
+        other += "ใส่ข้อความ\r\n";
+        other += "ใส่ข้อความ";
+    
+    send_json(other);
+            }
+       break;
+            case 13:
+            {
+             microgear.chat(TargetWeb, "OFF");
+    String other = " ";
+        other += "***** อื่นๆ2ใส่ข้อความ *****\r\n";
+        other += "ใส่ข้อความ\r\n";
+        other += "ใส่ข้อความ\r\n";
+        other += "ใส่ข้อความ";
+    
+    send_json(other);
+            }
+       break;
+            case 14:
+            {
+            microgear.chat(TargetWeb, "OFF");
+    String other = " ";
+        other += "***** อื่นๆ3ใส่ข้อความ *****\r\n";
+        other += "ใส่ข้อความ\r\n";
+        other += "ใส่ข้อความ\r\n";
+        other += "ใส่ข้อความ";
+    
+    send_json(other);
+            }
+       break;
+            case 15:
+            {
+             microgear.chat(TargetWeb, "OFF");
     send_json("หยุดแล้ว");
     setStatRadom1 = 0;
     setStatRadom2 = 0;
@@ -463,59 +722,13 @@ void buttonEvent(){
     setStatRadom8 = 0;
     setStatRadom9 = 0;
     setStatRadom10 = 0;
-  }else if(ruleStatus == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, LOW);
-    microgear.chat(TargetWeb, "OFF");
-    String rule = " ";
-        rule += "***** กติกาการเลิ่น *****\r\n";
-        rule += "ใส่ข้อความ\r\n";
-        rule += "ใส่ข้อความ\r\n";
-        rule += "ใส่ข้อความ";
-    
-    send_json(rule);
-    
-  }else if(otherStatus == 0) 
-  {
-    //digitalWrite(LED_BUILTIN, LOW);
-    microgear.chat(TargetWeb, "OFF");
-    String other = " ";
-        other += "***** อื่นๆใส่ข้อความ *****\r\n";
-        other += "ใส่ข้อความ\r\n";
-        other += "ใส่ข้อความ\r\n";
-        other += "ใส่ข้อความ";
-    
-    send_json(other);
-    
-  }else{
-//    int pos = random(4);
-//    String msg = errorMSG[pos];
-//    send_json(msg);
-    }
-  
-  
-  }
-void loop() {
-
-    if (microgear.connected()) {
-        Serial.println("..."); 
-        microgear.loop();
-        timer = 0;
-    }
-    else {
-        Serial.println("connection lost, reconnect...");
-        if (timer >= 5000) {
-            microgear.connect(APPID); 
-            timer = 0;
-        }
-        else timer += 100;
-    }
-
-    
-    
-    delay(100);
-
-    buttonEvent();
+       break;
+            }
+     default:
+            ;
+}
+}
+   
     
      unsigned long currentMillis = millis();  
 if (currentMillis - previousMillis >= interval) {
