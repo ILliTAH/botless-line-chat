@@ -710,7 +710,7 @@ switch (keypad())
        break;
             case 15:
             {
-             microgear.chat(TargetWeb, "OFF");
+    microgear.chat(TargetWeb, "OFF");
     send_json("หยุดแล้ว");
     setStatRadom1 = 0;
     setStatRadom2 = 0;
@@ -722,8 +722,8 @@ switch (keypad())
     setStatRadom8 = 0;
     setStatRadom9 = 0;
     setStatRadom10 = 0;
-       break;
-            }
+    }
+       break;          
      default:
             ;
 }
@@ -782,6 +782,36 @@ if (currentMillis - previousMillis >= interval) {
          delay(waittimer);
          send_json("สิ้นสุดการรอ");
             setStatRadom5 = 1;   
+     
+        }
+        if(setStatRadom6 == 2){
+         delay(waittimer);
+         send_json("สิ้นสุดการรอ");
+            setStatRadom6 = 1;   
+     
+        }
+        if(setStatRadom7 == 2){
+         delay(waittimer);
+         send_json("สิ้นสุดการรอ");
+            setStatRadom7 = 1;   
+     
+        }
+        if(setStatRadom8 == 2){
+         delay(waittimer);
+         send_json("สิ้นสุดการรอ");
+            setStatRadom8 = 1;   
+     
+        }
+        if(setStatRadom9 == 2){
+         delay(waittimer);
+         send_json("สิ้นสุดการรอ");
+            setStatRadom9 = 1;   
+     
+        }
+        if(setStatRadom10 == 2){
+         delay(waittimer);
+         send_json("สิ้นสุดการรอ");
+            setStatRadom10 = 1;   
      
         }
 
